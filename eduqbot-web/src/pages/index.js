@@ -9,7 +9,10 @@ const SYSTEM_MESSAGE = "You are an AI assistant eduqbot";
 export default function Home() {
   const [apiKey, setApiKey] = useState("");
 
-  const [botMessage, setBotMessage] = useState("");
+  const [userMessage, setUserMessage] = useState("");
+
+  const [messageHistory, setMessageHistory] = useState([ { role: "system", content: "SYSTEM_MESSAGE"}]);
+
  
 
   const API_URL = "https://api.openai.com/v1/chat/completions" ;
@@ -17,23 +20,25 @@ export default function Home() {
 
 
   const sendRequest = async () => {
+
+
+
+
     const response = await fetch(API_URL, {
       method: "POST",
-     headers: {
+      headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
         messages: [
-          { role: "system", content: "SYSTEM MESSAGE"},
+          { role: "system", content: "SYSTEM_MESSAGE"},
           { role: "user", content: "Hello, Could you please Introduce yourself"}],
       }),
     });
 
-    const responseJson = await response.json();
-    setBotMessage(responseJson.choices[0].message.content);  
-    console.log("botMessage", botMessage);
+  
 
   }
 
@@ -57,27 +62,35 @@ export default function Home() {
       {/* History Message */}
 
       <div className="flex-1">
-        <div className= "max-w-screen-md mx-auto w-full text-indigo-800">Message History</div>
+        <div className= "max-w-screen-md mx-auto w-full text-indigo-800">
+
+          {messageHistory.map((message ,idx) => (
+            <div key={idx} className="mt-3">
+
+              <div className="font-bold">{message.role}</div>
+              <div className="font-l">{message.content}</div>
+            </div>
+          ))}
+        </div>
         </div>
 
         {/* Input box */}
         <div>
-        <div className="max-w-screen-md mx-auto w-full flex">
-          <textarea className="border text-lg rounded-md flex-1" /> 
+        <div className="max-w-screen-md mx-auto w-full flex px-4 pb-4">
+          <textarea
+          value={userMessage}
+          onChange={e => setUserMessage(e.target.value)}
+          className="border text-lg rounded-md flex-1" rows={1} />
+           <button onClick={sendRequest} className="w-40 bordered rounded bg-blue-500 hover:bg-indigo-700 text-white p-2">Send</button>
 </div>
         </div>
 
       
 
 
-     <div className="p-4">
-      <button className="w-40 bordered rounded bg-blue-500 hover:bg-indigo-700 text-white p-2"
-      onClick={sendRequest}>Send Request</button>
-      <div className="mt-4 text-lg">{botMessage}
-      </div>
-
+     
      </div>
-    </div>
+ 
 
  
   );
