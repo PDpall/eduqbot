@@ -19,9 +19,9 @@ export default function Home() {
   const sendRequest = async () => {
     const response = await fetch(API_URL, {
       method: "POST",
-      headers: {
+     headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ` + apiKey,
+        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
