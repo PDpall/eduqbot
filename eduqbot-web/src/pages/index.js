@@ -24,11 +24,14 @@ export default function Home() {
   async function sendRequest () {     
   
 
-    const newMessage = { role: "user", content: "userMessage" };
     const newMessages = [
       ...messages,
-      newMessage
-    ] 
+      {
+        role: "user",
+        content: userMessage,
+      },
+    ];
+
     setMessages(newMessages);
     setUserMessage("");
   
