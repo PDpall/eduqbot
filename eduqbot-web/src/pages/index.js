@@ -1,11 +1,13 @@
 import { useState } from "react"; 
 
-const SYSTEM_MESSAGE = "You are Eduqbot, an AI Assistant created using state of the art ML models and APIs";
+
+const SYSTEM_MESSAGE = "You are an Eduqbot, an AI Assistant created using state of the art ML models and APIs";
 
 export default function Home() {
+ 
 
   const [apiKey, setApiKey] = useState("");
-  const [botMessage, setBotMessage] = useState("");
+  
   const [userMessage, setUserMessage] = useState("");
 
   const [messages, setMessages] = useState([
@@ -17,13 +19,16 @@ export default function Home() {
   ]);
   const API_URL = "https://api.openai.com/v1/chat/completions";
   /*console.log ("apiKey", apiKey);*/
+ 
   
-  async function sendRequest () { 
-    const newMessage = { role: "user", content: "userMessage"};
+  async function sendRequest () {     
+  
+
+    const newMessage = { role: "user", content: "userMessage" };
     const newMessages = [
       ...messages,
       newMessage
-    ]
+    ] 
     setMessages(newMessages);
     setUserMessage("");
   
@@ -35,16 +40,22 @@ export default function Home() {
       },
       body: JSON.stringify ({
         model:"gpt-3.5-turbo",
-        messages:newMessages,
+        messages: newMessages,
       }),
     });
 
-    const responseJson = await response.json ();
-    setBotMessage(responseJson.choices[0].message.content);
-    
+    const responseJson = await response.json ();   
+ 
+   const newBotMessage = responseJson.choices[0].message;
 
-  } 
+   const newMessages2 = [...newMessages, newBotMessage];
+   setMessages(newMessages2);
 
+    console.log("responseJson",responseJson);
+
+    //setBotMessages(responseJson.choices[0].message.content);
+   
+      } 
 
 return <div className="flex flex-col h-screen">
     <nav className="shadow px-4 py-4 flex flex-row justify-between items-center"> 
@@ -62,10 +73,10 @@ return <div className="flex flex-col h-screen">
     <div className="flex-1 overflow-y-scroll">
         <div className= "max-w-screen-md mx-auto w-full text-indigo-800">
 
-          {messages.map((message ,idx) => (
+          {messages.filter(message => message.role !== "system").map((message ,idx) => (
             <div key={idx} className="my-3">
 
-              <div className="font-bold">{message.role}</div>
+              <div className="font-bold">{message.role === "user" ? "you" : "Assistant Eduqbot here!"}</div>
               <div className="font-l">{message.content}</div>
             </div>)
           )}
@@ -87,15 +98,9 @@ return <div className="flex flex-col h-screen">
                    
 </div>
         </div>
-
-      
-
-     
-     </div>
+         
+    </div>
  
-
- 
-
 }
 
 
