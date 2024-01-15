@@ -63,7 +63,8 @@ export default function Home() {
    
       } 
 
-return 
+return
+ <>
 <Head><title>Eduqbot-you friend in need AI</title></Head>
 
 <div className="flex flex-col h-screen">
