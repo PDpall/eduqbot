@@ -1,4 +1,5 @@
 import { useState } from "react"; 
+import ReactMarkdown from "react-markdown"
 
 
 const SYSTEM_MESSAGE = "You are an Eduqbot, an AI Assistant created using state of the art ML models and APIs";
@@ -72,6 +73,7 @@ return <div className="flex flex-col h-screen">
         />
       </div>
     </nav>
+      {/* Message box */}
 
     <div className="flex-1 overflow-y-scroll">
         <div className= "max-w-screen-md mx-auto w-full text-indigo-800">
@@ -79,8 +81,10 @@ return <div className="flex flex-col h-screen">
           {messages.filter(message => message.role !== "system").map((message ,idx) => (
             <div key={idx} className="my-3">
 
-              <div className="font-bold">{message.role === "user" ? "you" : "Assistant Eduqbot here!"}</div>
-              <div className="font-l">{message.content}</div>
+              <div className="font-bold">{message.role === "user" ? "you" : "Eduqbot here!"}</div>
+              <div className="text-lg prose">
+                
+                <ReactMarkdown>{message.content}</ReactMarkdown></div>
             </div>)
           )}
         </div>
