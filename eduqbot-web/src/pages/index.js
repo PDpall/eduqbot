@@ -1,6 +1,8 @@
 import { useState } from "react"; 
 import ReactMarkdown from "react-markdown"
 
+import Head from "next/head";
+
 
 const SYSTEM_MESSAGE = "You are an Eduqbot, an AI Assistant created using state of the art ML models and APIs";
 
@@ -61,7 +63,10 @@ export default function Home() {
    
       } 
 
-return <div className="flex flex-col h-screen">
+return 
+<Head><title>Eduqbot-you friend in need AI</title></Head>
+
+<div className="flex flex-col h-screen">
     <nav className="shadow px-4 py-4 flex flex-row justify-between items-center"> 
       <div className="text-xl font-bold text-indigo-700">  Eduqbot </div>
       <div> 
