@@ -1,7 +1,11 @@
 import { useState } from "react"; 
-import ReactMarkdown from "react-markdown"
+import ReactMarkdown from "react-markdown";
 
 import Head from "next/head";
+
+
+
+
 
 
 const SYSTEM_MESSAGE = "You are an Eduqbot, an AI Assistant created using state of the art ML models and APIs";
@@ -47,6 +51,7 @@ export default function Home() {
       body: JSON.stringify ({
         model:"gpt-3.5-turbo",
         messages: newMessages,
+        stream:true
       }),
     });
 
@@ -63,63 +68,57 @@ export default function Home() {
    
       } 
 
-return
- <>
-<Head><title>Eduqbot-you friend in need AI</title></Head>
 
-<div className="flex flex-col h-screen">
-    <nav className="shadow px-4 py-4 flex flex-row justify-between items-center"> 
-      <div className="text-xl font-bold text-indigo-700">  Eduqbot </div>
-      <div> 
-        <input type="password" 
-        className="border rounded p-1" 
-        placeholder="Paste your API Key here"
-        onChange={(e) => setApiKey (e.target.value)} 
-        value = { apiKey }
-        />
-      </div>
-    </nav>
-      {/* Message box */}
-
-    <div className="flex-1 overflow-y-scroll">
-        <div className= "max-w-screen-md mx-auto w-full text-indigo-800">
-
-          {messages.filter(message => message.role !== "system").map((message ,idx) => (
-            <div key={idx} className="my-3">
-
-              <div className="font-bold">{message.role === "user" ? "you" : "Eduqbot here!"}</div>
-              <div className="text-lg prose">
-                
-                <ReactMarkdown>{message.content}</ReactMarkdown></div>
-            </div>)
-          )}
+      return (
+        <>
+        <Head>
+          <title>Eduqbot- Who can answer all your Queries</title>
+          </Head>
+      
+      
+      <div className="flex flex-col h-screen">
+      <nav className="shadow px-4 py-4 flex flex-row justify-between items-center"> 
+        <div className="text-xl font-bold text-indigo-700">  Eduqbot </div>
+        <div> 
+          <input type="password" 
+          className="border rounded p-1" 
+          placeholder="Paste your API Key here"
+          onChange={(e) => setApiKey (e.target.value)} 
+          value = { apiKey }
+          />
         </div>
-        </div>
-       
-
-
-        {/* Input box */}
-        <div>
-        
-        <div className="max-w-screen-md mx-auto w-full flex px-4 pb-4">
-          <textarea
-          value={userMessage}
-          onChange={(e) => setUserMessage(e.target.value)}
-          className="border text-lg rounded-md flex-1" rows={1} />
-           <button onClick={sendRequest} 
-           className="w-40 bordered rounded bg-blue-500 hover:bg-indigo-700 text-white p-2">Send</button>
-                   
-</div>
-        </div>
+      </nav>
+  
+      <div className="flex-1 overflow-y-scroll">
+          <div className= "max-w-screen-md mx-auto w-full text-indigo-800">
+  
+            {messages.filter(message => message.role !== "system").map((message ,idx) => (
+              <div key={idx} className="my-3">
+  
+                <div className="font-bold">{message.role === "user" ? "you" : "Assistant Eduqbot here!"}</div>
+                <div className="font-l">{message.content}</div>
+              </div>)
+            )}
+          </div>
+          </div>
          
-    </div>
- 
+  
+          {/* Input box */}
+          <div>
+          
+          <div className="max-w-screen-md mx-auto w-full flex px-4 pb-4">
+            <textarea
+            value={userMessage}
+            onChange={(e) => setUserMessage(e.target.value)}
+            className="border text-lg rounded-md flex-1" rows={1} />
+             <button onClick={sendRequest} 
+             className="w-40 bordered rounded bg-blue-500 hover:bg-indigo-700 text-white p-2">Send</button>
+                     
+  </div>
+          </div>
+           
+      </div>
+      
+      </>
+  );
 }
-
-
-
-
- 
-
-
-
